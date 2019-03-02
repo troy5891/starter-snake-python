@@ -41,10 +41,8 @@ def start():
     print(json.dumps(data))
 
     color = "#B1FFCB"
-    headType = "silly"
-    tailType = "fat_rattle"
 
-    return start_response(color, headType, tailType)
+    return start_response(color)
 
 
 @bottle.post('/move')
@@ -106,8 +104,7 @@ def move():
     else: #if food
         nearestFood = foodList[0]
         for i in range(1,len(foodList)):
-            if (abs(x - foodList[i]["x"]) + abs(y - foodList[i]["y"]) <
-                abs(x - nearestFood["x"]) + abs(y - nearestFood["y"])):
+            if (abs(x - foodList[i]["x"]) + abs(y - foodList[i]["y"]) < abs(x - nearestFood["x"]) + abs(y - nearestFood["y"])):
                 nearestFood = foodList[i]
 
         if x > nearestFood["x"]:
@@ -143,13 +140,13 @@ def move():
 def findNearby(data, x, y):
     nearby = {"up": "open", "down": "open", "left": "open", "right": "open"}
     #wall, snake-head, snake-tail, snake, your-snake, your-snake-tail
-    if x == 0:
-        nearby["up"] = "wall"
-    elif x == data["board"]["width"] - 1:
-        nearby["down"] = "wall"
     if y == 0:
+        nearby["up"] = "wall"
+    elif y == data["board"]["width"] - 1:
+        nearby["down"] = "wall"
+    if x == 0:
         nearby["left"] = "wall"
-    elif y == data["board"]["height"] - 1:
+    elif x == data["board"]["height"] - 1:
         nearby["right"] = "wall"
 
     yourBody = data["you"]["body"]
